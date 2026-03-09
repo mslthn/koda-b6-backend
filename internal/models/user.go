@@ -1,0 +1,32 @@
+package models
+
+type User struct {
+	Id             string `json:"id"`
+	Role           string `json:"role"`
+	Fullname       string `json:"fullname"`
+	Email          string `json:"email"`
+	Password       string `json:"password"`
+	Address        string `json:"address"`
+	Phone          string `json:"phone"`
+	ProfilePicture string `json:"profile_picture"`
+}
+
+type Login struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type CreateUser struct {
+	Fullname string `json:"fullname"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type UpdateUser struct {
+	Fullname       string `json:"fullname"`
+	Email          string `json:"email"`
+	Password       string `json:"password"`
+	Address        string `json:"address"`
+	Phone          string `json:"phone"`
+	ProfilePicture string `json:"profile_picture"`
+}

@@ -1,0 +1,12 @@
+drop table "product_categories";
+drop table "transaction_product";
+drop table "product_size";
+drop table "product_variant";
+drop table "transaction";
+drop table "discount";
+drop table "review";
+drop table "product_images";
+drop table "category";
+drop table "cart";
+drop table "products";
+drop table "user";

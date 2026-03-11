@@ -5,7 +5,6 @@ import (
 	"main/internal/models"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/pelletier/go-toml/query"
 )
 
 type AuthRepository struct{
@@ -35,7 +34,22 @@ func (r *AuthRepository) CreateForgotPassword(data models.ForgotPassword) error 
 func (r *AuthRepository) GetDataByEmailCode(email string, code string) (*models.ForgotPassword, error){
 	query := `SELECT id, email, otp_code, created_at, expired_at FROM forgot_password WHERE email=$1 AND otp_code=$2`
 
-	row := r.db.QueryRow(context.Background(), query, email, code)
+	rows, err := r.db.Query(context.Background(), query, email, code)
+	if err != nil {
+		return  nil, err
+	}
 
-	var
+	data, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[models.ForgotPassword])
+	if err != nil{
+		return nil, err
+	}
+	return  &data, nil
+}
+
+func (r *AuthRepository) DeleteDataByCode(code string) error{
+	query := `DELETE FROM forgot_password WHERE otp_code=$1`
+
+	_, err := r.db.Exec(context.Background(), query, code)
+
+	return  err
 }

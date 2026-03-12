@@ -11,7 +11,7 @@ type User struct {
 	ProfilePicture string `json:"profile_picture"`
 }
 
-type Login struct {
+type LoginUserRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }

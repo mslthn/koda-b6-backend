@@ -17,6 +17,14 @@ func NewUserRepository(db *pgx.Conn) *UserRepository {
 	}
 }
 
+func (r *UserRepository) Create(user models.User) error{
+	query := `INSERT INTO "user" (fullname, email, password) VALUE ($1, $2, $3)`
+
+	_, err := r.db.Exec(context.Background(), query, user.Fullname, user.Email, user.Password)
+
+	return err
+}
+
 func (r *UserRepository) GetUser() ([]models.User, error){
 	query := `SELECT id, fullname, email, password FROM "user"`
 

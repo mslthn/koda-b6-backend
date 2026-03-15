@@ -1,7 +1,7 @@
 package models
 
 type ProductVariant struct {
-	IDVariant   int    `json:"variant_id"`
+	IDV   int    `json:"variant_id"`
 	ProductID   int    `json:"product_id"`
 	VariantName string `json:"variant_name"`
 	AddPrice    int    `json:"additional_price"`

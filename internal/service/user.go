@@ -77,7 +77,7 @@ func (s *UserService) Login(req models.LoginUserRequest) (string, error){
 	}
 
 	if ok{
-		token, err := lib.GenerateToken(user.Id)
+		token, err := lib.GenerateToken(user.ID)
 		
 		if err != nil {
 			return  "", err
@@ -121,5 +121,5 @@ func (s *UserService) Delete(email string) error{
 		return errors.New("user not found!")
 	}
 
-	return s.repo.DeleteUser(user.Id)
+	return s.repo.DeleteUser(user.ID)
 }

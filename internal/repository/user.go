@@ -82,7 +82,7 @@ func (r *UserRepository) UpdateUser(user models.User) error{
 		user.Fullname,
 		user.Email,
 		user.Password,
-		user.Id,
+		user.ID,
 	)
 	return  err
 }

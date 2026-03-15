@@ -89,30 +89,34 @@ func (s *UserService) Login(req models.LoginUserRequest) (string, error){
 	return  "", err
 }
 
-func (s *UserService) Update(email string, req *models.UpdateUserRequest) (*models.User, error){
-	user, err := s.repo.GetByEmail(email)
-	if  err != nil {
-		return  nil, errors.New("User not found")
-	}
+func (s *UserService) Update(id int, req *models.UpdateUserRequest) (*models.User, error) {
+    user, err := s.repo.GetById(id)
+    if err != nil {
+        return nil, errors.New("User not found")
+    }
 
-	if req.Fullname != "" {
-		user.Fullname = req.Fullname
-	}
+    if req.Fullname != "" {
+        user.Fullname = req.Fullname
+    }
 
-	if  req.Email != "" {
-		user.Email = req.Email
-	}
+    if req.Email != "" {
+        user.Email = req.Email
+    }
 
-	if  req.Password != "" {
-		user.Password = req.Password
-	}
+    if req.Password != "" {
+        hashed, err := lib.HashPassword(req.Password)
+        if err != nil {
+            return nil, err
+        }
+        user.Password = hashed
+    }
 
-	err = s.repo.UpdateUser(*user)
-	if err != nil {
-		return nil, err
-	}
+    err = s.repo.UpdateUser(*user)
+    if err != nil {
+        return nil, err
+    }
 
-	return user, nil
+    return user, nil
 }
 
 func (s *UserService) Delete(email string) error{

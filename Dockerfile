@@ -1,28 +1,22 @@
-FROM golang:1.23-alpine AS builder
+FROM golang:1.25.0-alpine AS build
 
-WORKDIR /app
-
-COPY go.mod go.sum ./
+WORKDIR /workspace
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/coffee-backend ./cmd/main.go
+RUN go mod tidy
+
+RUN go build -o backend-coffee cmd/main.go
+
+RUN chmod +x backend-coffee
 
 
 FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=builder /app/coffee-backend .
-
-# COPY --from=builder /app/.env .
-
-COPY --from=builder /app/uploads ./uploads
-
-RUN apk add --no-cache tzdata
-
-RUN chmod +x /app/coffee-backend
+COPY --from=build /workspace/backend-coffee /app
 
 EXPOSE 8888
 
-ENTRYPOINT ["./coffee-backend"]
+ENTRYPOINT ["/app/backend-coffee"]

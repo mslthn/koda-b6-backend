@@ -27,7 +27,8 @@ func (r *UserRepository) Create(user models.User) error{
 }
 
 func (r *UserRepository) GetUser() ([]models.User, error){
-	query := `SELECT id, fullname, email, password FROM "user"`
+	query := `SELECT id, fullname, email, password, role FROM "user"
+	JOIN "user_role" ON "user_role"."user_id" = "user.id"`
 
 	rows, err := r.db.Query(context.Background(), query)
 	if err != nil{
@@ -38,6 +39,7 @@ func (r *UserRepository) GetUser() ([]models.User, error){
 	if err != nil {
 		return nil, errors.New("Get all users collect row error : "+ err.Error())
 	}
+	
 
 	return user, nil
 }

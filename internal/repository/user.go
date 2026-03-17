@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"main/internal/models"
 
 	"github.com/jackc/pgx/v5"
@@ -30,12 +31,12 @@ func (r *UserRepository) GetUser() ([]models.User, error){
 
 	rows, err := r.db.Query(context.Background(), query)
 	if err != nil{
-		return  nil, err
+		return  nil, errors.New("Get all users query errors : "+ err.Error())
 	}
 
 	user, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.User])
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Get all users collect row error : "+ err.Error())
 	}
 
 	return user, nil

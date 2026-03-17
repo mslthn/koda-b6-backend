@@ -1,0 +1,1 @@
+alter table "products" add column if not exists "is_flash_sale" boolean;

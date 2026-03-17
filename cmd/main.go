@@ -53,5 +53,5 @@ func main() {
 	if port == "" {
 		port = "8888"
 	}
-	r.Run(fmt.Sprintf("localhost:%s", port))
+	r.Run(fmt.Sprintf(":%s", port))
 }

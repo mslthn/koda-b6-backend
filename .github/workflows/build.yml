@@ -45,5 +45,5 @@ jobs:
           script: |
             cd server-anton
             docker compose pull
-            docker docker run --rm --network=server-anton_default migrate/migrate:latest -source github://mslthn:{{ secrets.GITHUB_TOKEN }}@mslthn/koda-b6-backend/migrations -database postgresql://postgres:1@pg:5432/postgres?sslmode=disable up
+            docker docker run --rm --network=server-anton_webapps migrate/migrate:latest -source github://mslthn:{{ secrets.GITHUB_TOKEN }}@mslthn/koda-b6-backend/migrations -database postgresql://postgres:1@pg:5432/postgres?sslmode=disable up
             docker compose up backend -d

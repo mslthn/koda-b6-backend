@@ -75,7 +75,7 @@ func (h *UserHandler) GetAll(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.Response{
 			Success: false,
-			Message: "Failed to fetch users"+err.Error(),
+			Message: err.Error(),
 		})
 		return
 	}

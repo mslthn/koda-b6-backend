@@ -1,7 +1,7 @@
 package models
 
 type Product struct {
-	ID   int    `json:"product_id"`
+	ID          int    `json:"product_id"`
 	Name        string `json:"name"`
 	Desc        string `json:"description"`
 	Price       int    `json:"price"`
@@ -23,4 +23,13 @@ type UpdateProductRequest struct {
 	Price       *int    `json:"price" binding:"omitempty, numeric, min=0"`
 	Quantity    *int    `json:"quantity" binding:"omitempty, min=0"`
 	IsFlashsale *bool   `json:"isFlashsale"`
+}
+
+type ProductLandingPage struct {
+	IDProduct int    `json:"product_id"`
+	Name      string `json:"name"`
+	Desc      string `json:"desc"`
+	Price     int    `json:"price"`
+	ImagePath string `json:"image_path"`
+	Review    int    `json:"review"`
 }

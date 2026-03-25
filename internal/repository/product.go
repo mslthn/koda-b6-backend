@@ -66,3 +66,25 @@ func (r *ProductRepository) Delete(ctx context.Context, id int) error{
 	_, err := r.db.Exec(ctx, query, id)
 	return err
 }
+
+func (r *ProductRepository) GetRecommendedProducts(ctx context.Context) ([]models.ProductLandingPage, error){
+	query := `
+			SELECT p.id, p.name, p.description, p.price
+			count(rev.id) as num_review
+			FROM products p
+			join review rev
+			on p.id = rev.product_id
+			group by p.id
+			order by num_review desc
+			limit 4
+			`
+	
+	rows, err := r.db.Query(ctx, query)
+	if err != nil{
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	return pgx.CollectRows(rows, pgx.RowToStructByName[models.ProductLandingPage])
+}

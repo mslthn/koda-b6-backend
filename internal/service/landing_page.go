@@ -18,4 +18,10 @@ func NewLandingPageService(pr *repository.ProductRepository, rr *repository.Revi
 	}
 }
 
-func (s *LandingPageService) GetRecommendedProducts(ctx context.Context) ([]models.)
+func (s *LandingPageService) GetRecommendedProducts(ctx context.Context) ([]models.ProductLandingPage, error){
+	return s.productRepo.GetRecommendedProducts(ctx)
+}
+
+func (s *LandingPageService) GetReview(ctx context.Context) ([]models.Review, error){
+	return s.reviewRepo.GetAll(ctx)
+}

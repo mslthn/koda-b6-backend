@@ -78,7 +78,6 @@ func (r *ProductRepository) GetRecommendedProducts(ctx context.Context) ([]model
 			order by num_review desc
 			limit 4
 			`
-	
 	rows, err := r.db.Query(ctx, query)
 	if err != nil{
 		return nil, err

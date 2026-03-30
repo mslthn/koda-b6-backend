@@ -19,7 +19,7 @@ func NewUserRepository(db *pgx.Conn) *UserRepository {
 }
 
 func (r *UserRepository) Create(user models.User) error{
-	query := `INSERT INTO "user" (fullname, email, password) VALUE ($1, $2, $3)`
+	query := `INSERT INTO "users" (fullname, email, password) VALUE ($1, $2, $3)`
 
 	_, err := r.db.Exec(context.Background(), query, user.Fullname, user.Email, user.Password)
 
@@ -28,7 +28,7 @@ func (r *UserRepository) Create(user models.User) error{
 
 func (r *UserRepository) GetUser() ([]models.User, error){
 	query := `SELECT users_id, fullname, email, password, role FROM "users"
-	JOIN "user_role" ON "users"."users_id" = "user_role"."id"`
+	JOIN "user_role" ON "users"."user_id" = "user_role"."id"`
 
 	rows, err := r.db.Query(context.Background(), query)
 	if err != nil{
@@ -45,7 +45,7 @@ func (r *UserRepository) GetUser() ([]models.User, error){
 }
 
 func (r *UserRepository) GetByEmail(email string) (*models.User, error){
-	query := `SELECT id, fullname, email, password FROM "user" WHERE email=$1`
+	query := `SELECT id, fullname, email, password FROM "users" WHERE email=$1`
 
 	rows, err := r.db.Query(context.Background(), query, email)
 	if err != nil{
@@ -61,7 +61,7 @@ func (r *UserRepository) GetByEmail(email string) (*models.User, error){
 }
 
 func (r *UserRepository) GetById(id int) (*models.User, error){
-	query := `SELECT id, fullname, email, password FROM "user" WHERE id=$1`
+	query := `SELECT id, fullname, email, password FROM "users" WHERE id=$1`
 
 	rows, err := r.db.Query(context.Background(), query, id)
 	if err != nil{
@@ -77,7 +77,7 @@ func (r *UserRepository) GetById(id int) (*models.User, error){
 }
 
 func (r *UserRepository) UpdateUser(user models.User) error{
-	query := `UPDATE user SET fullname=$1, email=$2, password=$3 WHERE id=$4`
+	query := `UPDATE users SET fullname=$1, email=$2, password=$3 WHERE id=$4`
 
 	_, err := r.db.Exec(
 		context.Background(),
@@ -91,7 +91,7 @@ func (r *UserRepository) UpdateUser(user models.User) error{
 }
 
 func (r *UserRepository) UpdatePasswordByEmail(email string, password string) error{
-	query := `UPDATE user SET password=$1 WHERE email=$2`
+	query := `UPDATE users SET password=$1 WHERE email=$2`
 
 	_, err := r.db.Exec(context.Background(), query, password, email)
 	if err != nil{
@@ -101,7 +101,7 @@ func (r *UserRepository) UpdatePasswordByEmail(email string, password string) er
 }
 
 func (r *UserRepository) DeleteUser(id int) error{
-	query := `DELETE FROM user WHERE id=$1`
+	query := `DELETE FROM users WHERE id=$1`
 
 	_, err := r.db.Exec(context.Background(), query, id)
 

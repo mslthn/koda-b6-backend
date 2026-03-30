@@ -27,8 +27,8 @@ func (r *UserRepository) Create(user models.User) error{
 }
 
 func (r *UserRepository) GetUser() ([]models.User, error){
-	query := `SELECT id, fullname, email, password, role FROM "user"
-	JOIN "user_role" ON "user"."id" = "user_role"."id"`
+	query := `SELECT id, fullname, email, password, role FROM "users"
+	JOIN "user_role" ON "users"."id" = "user_role"."id"`
 
 	rows, err := r.db.Query(context.Background(), query)
 	if err != nil{

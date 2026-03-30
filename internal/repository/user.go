@@ -45,7 +45,7 @@ func (r *UserRepository) GetUser() ([]models.User, error){
 }
 
 func (r *UserRepository) GetByEmail(email string) (*models.User, error){
-	query := `SELECT id, fullname, email, password FROM "users" WHERE email=$1`
+	query := `SELECT user_id, fullname, email, password FROM "users" WHERE email=$1`
 
 	rows, err := r.db.Query(context.Background(), query, email)
 	if err != nil{
@@ -61,7 +61,7 @@ func (r *UserRepository) GetByEmail(email string) (*models.User, error){
 }
 
 func (r *UserRepository) GetById(id int) (*models.User, error){
-	query := `SELECT id, fullname, email, password FROM "users" WHERE id=$1`
+	query := `SELECT user_id, fullname, email, password FROM "users" WHERE id=$1`
 
 	rows, err := r.db.Query(context.Background(), query, id)
 	if err != nil{
@@ -77,7 +77,7 @@ func (r *UserRepository) GetById(id int) (*models.User, error){
 }
 
 func (r *UserRepository) UpdateUser(user models.User) error{
-	query := `UPDATE users SET fullname=$1, email=$2, password=$3 WHERE id=$4`
+	query := `UPDATE users SET fullname=$1, email=$2, password=$3 WHERE user_id=$4`
 
 	_, err := r.db.Exec(
 		context.Background(),
@@ -101,7 +101,7 @@ func (r *UserRepository) UpdatePasswordByEmail(email string, password string) er
 }
 
 func (r *UserRepository) DeleteUser(id int) error{
-	query := `DELETE FROM users WHERE id=$1`
+	query := `DELETE FROM users WHERE user_id=$1`
 
 	_, err := r.db.Exec(context.Background(), query, id)
 

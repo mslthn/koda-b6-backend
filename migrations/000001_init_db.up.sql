@@ -1,8 +1,8 @@
-create table if not exists "user" (
+create table if not exists "users" (
     "id" serial primary key,
     "fullname" varchar (80),
     "email" varchar (80) unique,
-    "password" varchar (80),
+    "password" varchar (255),
     "address" varchar (80),
     "phone" varchar (15),
     "picture" varchar (255)

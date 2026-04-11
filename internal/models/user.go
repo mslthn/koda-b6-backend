@@ -1,14 +1,14 @@
 package models
 
 type User struct {
-	ID             int `json:"id_user"`
-	Role           string `json:"role"`
-	Fullname       string `json:"fullname"`
-	Email          string `json:"email"`
-	Password       string `json:"password"`
-	Address        string `json:"address"`
-	Phone          string `json:"phone"`
-	ProfilePicture string `json:"profile_picture"`
+	ID             int    `json:"id" db:"id"`
+	RoleID         string `json:"role_id" db:"role_id"`
+	Fullname       string `json:"fullname" db:"fullname"`
+	Email          string `json:"email" db:"email"`
+	Password       string `json:"password" db:"password"`
+	Address        string `json:"address" db:"address"`
+	Phone          string `json:"phone" db:"phone"`
+	ProfilePicture string `json:"profile_picture" db:"picture"`
 }
 
 type LoginUserRequest struct {
@@ -16,7 +16,7 @@ type LoginUserRequest struct {
 	Password string `json:"password"`
 }
 
-type LoginUserResponse struct{
+type LoginUserResponse struct {
 	Token string `json:"token"`
 }
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"main/internal/routes"
-	"net/http"
+	// "net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -13,18 +13,24 @@ import (
 )
 
 func corsMiddleware() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		ctx.Header("Access-Control-Allow-Origin", os.Getenv("FRONTEND_URL"))
-		ctx.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
-		ctx.Header("Access-Control-Allow-Headers", "Content-Type, authorization")
+    return func(ctx *gin.Context) {
+        origin := ctx.Request.Header.Get("Origin")
+        frontendURL := os.Getenv("FRONTEND_URL")
 
-		if ctx.Request.Method == "OPTIONS" {
-			ctx.Data(http.StatusOK, "", []byte(""))
-			ctx.Abort()
-		} else {
-			ctx.Next()
-		}
-	}
+        if origin == frontendURL || frontendURL == "" {
+            ctx.Header("Access-Control-Allow-Origin", origin)
+        }
+
+        ctx.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
+        ctx.Header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+        ctx.Header("Access-Control-Allow-Credentials", "true")
+
+        if ctx.Request.Method == "OPTIONS" {
+            ctx.AbortWithStatus(204)
+            return
+        }
+        ctx.Next()
+    }
 }
 
 func main() {

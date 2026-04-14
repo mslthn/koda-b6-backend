@@ -5,6 +5,7 @@ import (
 	"main/internal/lib"
 	"main/internal/models"
 	"main/internal/repository"
+	"strconv"
 )
 
 type UserService struct {
@@ -55,11 +56,12 @@ func (s *UserService) Register(req *models.CreateUserRequest) error{
 	if err != nil{
 		return err
 	}
-
+	const DefaultRoleID = 2
 	newUser := models.User{
 		Fullname: req.Fullname,
 		Email: req.Email,
 		Password: hashed,
+		RoleID: strconv.Itoa(DefaultRoleID),
 	}
 
 	return  s.repo.Create(newUser)
